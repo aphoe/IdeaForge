@@ -2,34 +2,28 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Pages\Auth\EditProfile as FilamentEditProfile;
+use Filament\Auth\Pages\EditProfile as FilamentEditProfile;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Schema;
 
 class EditProfile extends FilamentEditProfile
 {
     /*protected static ?string $navigationIcon = 'heroicon-o-document-text';*/
 
-    protected static string $view = 'filament.pages.edit-profile';
+    protected string $view = 'filament.pages.edit-profile';
 
-    protected function getForms(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            'form' => $this->form(
-                $this->makeForm()
-                    ->schema([
-                        $this->getFirstNameFormComponent(),
-                        $this->getSurnameFormComponent(),
-                        $this->getEmailFormComponent(),
-                        $this->getPasswordFormComponent(),
-                        $this->getPasswordConfirmationFormComponent(),
-                    ])
-                    ->operation('edit')
-                    ->model($this->getUser())
-                    ->statePath('data')
-                    ->inlineLabel(! static::isSimple()),
-            ),
-        ];
+        return $schema
+            ->components([
+                $this->getFirstNameFormComponent(),
+                $this->getSurnameFormComponent(),
+                $this->getEmailFormComponent(),
+                $this->getPasswordFormComponent(),
+                $this->getPasswordConfirmationFormComponent(),
+                $this->getCurrentPasswordFormComponent(),
+            ]);
     }
 
     protected function getFirstNameFormComponent(): Component
