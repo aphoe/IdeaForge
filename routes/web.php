@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('demo')
-    //->middleware(\Filament\Http\Middleware\Authenticate::class)
+    ->middleware(\Filament\Http\Middleware\Authenticate::class)
     ->group(function () {
         Route::get('notify', [App\Http\Controllers\DemoController::class, 'notify']);
     });
