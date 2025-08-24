@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ObservedBy([IdeaScoreObserver::class])]
-#[ObservedBy([IdeaScoreObserver::class])]
 class IdeaScore extends Model
 {
     use HasFactory;

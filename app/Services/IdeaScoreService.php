@@ -10,9 +10,10 @@ class IdeaScoreService
      * Calculate the score of an idea based on its criteria.
      *
      * @param IdeaScore $ideaScore
+     * @param bool $round
      * @return float
      */
-    public function score(IdeaScore $ideaScore): float
+    public function score(IdeaScore $ideaScore, bool $round = true): float
     {
         $total = count(IdeaScoreCriterion::cases());
         $sum = 0;
@@ -21,6 +22,12 @@ class IdeaScoreService
             $sum += $criterion['score'];
         }
 
-        return $sum / $total;
+        $score = $sum / $total;
+
+        if ($round) {
+            return number_format($score, 2, thousands_separator: null);
+        }
+
+        return $score;
     }
 }

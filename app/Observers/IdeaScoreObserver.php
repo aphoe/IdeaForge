@@ -14,7 +14,8 @@ class IdeaScoreObserver
         $ideaScore->score = (new IdeaScoreService)->score($ideaScore);
     }
 
-    public function updating(IdeaScore $ideaScore): void
+    public function saving(IdeaScore $ideaScore): void
     {
+        $ideaScore->score = (new IdeaScoreService)->score($ideaScore);
     }
 }
