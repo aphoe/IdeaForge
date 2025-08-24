@@ -13,8 +13,9 @@ return new class extends Migration {
             $table->string('code')->nullable()->after('slug');
         });
 
+        $service = new IdeaService();
         foreach(Idea::whereNull('code')->get() as $idea) {
-            $idea->code = (new IdeaService())->genCode($idea->title);
+            $idea->code = $service->genCode($idea->title);
             $idea->save();
         }
 

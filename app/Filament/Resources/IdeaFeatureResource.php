@@ -76,6 +76,10 @@ class IdeaFeatureResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                TextColumn::make('code')
+                    ->searchable()
+                    ->sortable(),
+
                 TextColumn::make('idea.title')
                     ->searchable()
                     ->sortable(),

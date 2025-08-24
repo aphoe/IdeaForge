@@ -16,14 +16,15 @@ class IdeaScoreService
      * @param bool $showLabel
      * @param bool $returnArray
      * @param int $grid
+     * @param string|null $operation
      * @return array|Field
      * @throws \Exception
      */
-    public function formComponent(bool $showLabel = true, bool $returnArray = true, int $grid = 1): array|Field
+    public function formComponent(bool $showLabel = true, bool $returnArray = true, int $grid = 1, ?string $operation = null): array|Field
     {
         $fields = [];
 
-        if($showLabel){
+        if($showLabel || $operation === 'edit'){
             $fields[] = Select::make('criterion')
                     ->label('Criterion')
                     ->options(IdeaScoreCriterion::labelArray())
@@ -33,7 +34,7 @@ class IdeaScoreService
         }
 
         $fields[] = TextInput::make('score')
-            ->hiddenLabel(!$showLabel)
+            ->hiddenLabel(!$showLabel && $operation !== 'edit')
             ->integer()
             ->minValue(0)
             ->maxValue(10)
@@ -48,7 +49,7 @@ class IdeaScoreService
             ->deletable(false)
             ->reorderable(false)
             ->reorderableWithDragAndDrop(false)
-            ->itemLabel(fn (array $state): ?string => IdeaScoreCriterion::tryFrom($state['criterion'])?->label() ?? null)
+            ->itemLabel(fn (array $state): ?string => array_key_exists('criterion', $state) ? IdeaScoreCriterion::tryFrom($state['criterion'])?->label() : null)
             ->grid($grid);
 
         if($returnArray){

@@ -46,7 +46,11 @@ class IdeaResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        $schema->model->loadMissing('score');
+        if($schema->model instanceof Idea) {
+            $schema->model->loadMissing('score');
+        }
+
+        $grid = $schema->getOperation() === 'edit' ? 2 : 4;
 
         return $schema
             ->components([
@@ -95,8 +99,8 @@ class IdeaResource extends Resource
                 Fieldset::make('Idea Score')
                     ->relationship('score')
                     ->columnSpanFull()
-                    ->visibleOn( $schema->model->score instanceof IdeaScore ? ['edit', 'view'] : 'edit')
-                    ->schema((new IdeaScoreService())->formComponent(showLabel: false, grid: 4)),
+                    ->visibleOn( $schema->model instanceof Idea && $schema->model->score instanceof IdeaScore ? ['edit', 'view'] : 'edit')
+                    ->schema((new IdeaScoreService())->formComponent(showLabel: false, grid: $grid, operation: $schema->getOperation())),
 
                 Repeater::make('features')
                     ->relationship('features')
