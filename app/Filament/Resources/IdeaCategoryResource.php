@@ -31,7 +31,7 @@ class IdeaCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
 
-    protected static ?string $navigationLabel = 'Category';
+    protected static ?string $navigationLabel = 'Categories';
 
     public static function getNavigationGroup(): string|UnitEnum|null
     {
