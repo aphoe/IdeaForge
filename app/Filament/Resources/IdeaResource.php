@@ -7,6 +7,7 @@ use App\Enums\IdeaStatus;
 use App\Enums\NavigationGroup;
 use App\Filament\Resources\IdeaResource\Pages;
 use App\Models\Idea;
+use App\Models\IdeaScore;
 use App\Services\IdeaFeatureService;
 use App\Services\IdeaScoreService;
 use BackedEnum;
@@ -45,6 +46,8 @@ class IdeaResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
+        $schema->model->loadMissing('score');
+
         return $schema
             ->components([
                 TextInput::make('title')
@@ -92,7 +95,7 @@ class IdeaResource extends Resource
                 Fieldset::make('Idea Score')
                     ->relationship('score')
                     ->columnSpanFull()
-                    ->visibleOn(['edit', 'view'])
+                    ->visibleOn( $schema->model->score instanceof IdeaScore ? ['edit', 'view'] : 'edit')
                     ->schema((new IdeaScoreService())->formComponent(showLabel: false, grid: 4)),
 
                 Repeater::make('features')
@@ -111,6 +114,7 @@ class IdeaResource extends Resource
                             ->maxLength(1500)
                             ->required(),
                     ])
+                    ->visibleOn(['edit', 'view'])
                     ->columns(2)
                     ->columnSpanFull()
                     ->itemLabel(fn (array $state): ?string => $state['title'])
@@ -123,6 +127,10 @@ class IdeaResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('code')
                     ->searchable()
                     ->sortable(),
 
