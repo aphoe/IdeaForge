@@ -102,9 +102,14 @@ class IdeaResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('identifier'),
+                //TextColumn::make('identifier'),
 
-                TextColumn::make('slug')
+                /*TextColumn::make('slug')
+                    ->searchable()
+                    ->sortable(),*/
+
+                TextColumn::make('score.score')
+                    ->label('Score')
                     ->searchable()
                     ->sortable(),
 
