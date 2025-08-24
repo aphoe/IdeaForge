@@ -15,6 +15,7 @@ class IdeaFeatureFactory extends Factory
     public function definition(): array
     {
         return [
+            'title' => $this->faker->sentence(),
             'feature' => $this->faker->text(),
             'status' => IdeaStatus::fake(),
             'created_at' => Carbon::now(),

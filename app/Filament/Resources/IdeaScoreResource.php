@@ -54,7 +54,7 @@ class IdeaScoreResource extends Resource
                 TextInput::make('score')
                     ->visibleOn('view'),
 
-                (new IdeaScoreService())->formComponent(false),
+                (new IdeaScoreService())->formComponent(returnArray:  false),
 
                 TextEntry::make('created_at')
                     ->label('Created Date')

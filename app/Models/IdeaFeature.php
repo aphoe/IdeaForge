@@ -12,6 +12,8 @@ class IdeaFeature extends Model
     use HasFactory;
     use ModelIdeaStatus;
 
+    protected $guarded = [];
+
     /*
      * Relationships
      */

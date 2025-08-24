@@ -11,6 +11,7 @@ return new class extends Migration {
         Schema::create('idea_features', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Idea::class)->constrained()->cascadeOnDelete();
+            $table->string('title');
             $table->text('feature');
             $table->string('status')->default(\App\Enums\IdeaStatus::DRAFT->value);
             $table->timestamps();

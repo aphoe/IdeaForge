@@ -13,25 +13,34 @@ class IdeaScoreService
     /**
      * Get the form component for the idea score.
      *
+     * @param bool $showLabel
      * @param bool $returnArray
+     * @param int $grid
      * @return array|Field
      * @throws \Exception
      */
-    public function formComponent(bool $returnArray = true): array|Field
+    public function formComponent(bool $showLabel = true, bool $returnArray = true, int $grid = 1): array|Field
     {
-        $component = Repeater::make('criteria')
-            ->schema([
-                Select::make('criterion')
+        $fields = [];
+
+        if($showLabel){
+            $fields[] = Select::make('criterion')
+                    ->label('Criterion')
                     ->options(IdeaScoreCriterion::labelArray())
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->required(),
-                TextInput::make('score')
-                    ->integer()
-                    ->minValue(0)
-                    ->maxValue(10)
-                    ->required(),
-            ])
+                    ->required();
+        }
+
+        $fields[] = TextInput::make('score')
+            ->hiddenLabel(!$showLabel)
+            ->integer()
+            ->minValue(0)
+            ->maxValue(10)
+            ->required();
+
+        $component = Repeater::make('criteria')
+            ->schema($fields)
             ->columns(2)
             ->columnSpanFull()
             ->defaultItems(count(IdeaScoreCriterion::cases()))
@@ -39,7 +48,8 @@ class IdeaScoreService
             ->deletable(false)
             ->reorderable(false)
             ->reorderableWithDragAndDrop(false)
-            ->itemLabel(fn (array $state): ?string => IdeaScoreCriterion::tryFrom($state['criterion'])?->label() ?? null);
+            ->itemLabel(fn (array $state): ?string => IdeaScoreCriterion::tryFrom($state['criterion'])?->label() ?? null)
+            ->grid($grid);
 
         if($returnArray){
             return [$component];

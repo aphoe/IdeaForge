@@ -7,6 +7,7 @@ use App\Enums\IdeaStatus;
 use App\Enums\NavigationGroup;
 use App\Filament\Resources\IdeaResource\Pages;
 use App\Models\Idea;
+use App\Services\IdeaFeatureService;
 use App\Services\IdeaScoreService;
 use BackedEnum;
 use Filament\Actions\ActionGroup;
@@ -15,6 +16,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
@@ -91,7 +93,29 @@ class IdeaResource extends Resource
                     ->relationship('score')
                     ->columnSpanFull()
                     ->visibleOn(['edit', 'view'])
-                    ->schema((new IdeaScoreService())->formComponent())
+                    ->schema((new IdeaScoreService())->formComponent(showLabel: false, grid: 4)),
+
+                Repeater::make('features')
+                    ->relationship('features')
+                    ->schema([
+                        TextInput::make('title')
+                            //->hiddenLabel(!$showLabel)
+                            ->required(),
+
+                        Select::make('status')
+                            ->options(IdeaStatus::labelArray())
+                            ->required(),
+
+                        MarkdownEditor::make('feature')
+                            ->columnSpanFull()
+                            ->minLength(30)
+                            ->maxLength(1500)
+                            ->required(),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->itemLabel(fn (array $state): ?string => $state['title'])
+                    ->grid(2),
             ]);
     }
 
@@ -118,6 +142,11 @@ class IdeaResource extends Resource
                     ->label('Score')
                     ->searchable()
                     ->sortable(),
+
+                TextColumn::make('features_count')
+                    ->label('Features')
+                    ->counts('features')
+                    ->numeric(),
 
                 TextColumn::make('status')
                     ->searchable()
