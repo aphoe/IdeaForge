@@ -99,7 +99,6 @@ class IdeaResource extends Resource
                     ->relationship('features')
                     ->schema([
                         TextInput::make('title')
-                            //->hiddenLabel(!$showLabel)
                             ->required(),
 
                         Select::make('status')
@@ -152,7 +151,8 @@ class IdeaResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => IdeaStatus::tryFrom($state)->badge()),
+                    ->color(fn (string $state): string => IdeaStatus::tryFrom($state)->badge())
+                    ->formatStateUsing(fn (string $state): string => IdeaStatus::tryFrom($state)->label()),
             ])
             ->filters([
                 //
