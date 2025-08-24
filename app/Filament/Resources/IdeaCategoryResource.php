@@ -81,6 +81,11 @@ class IdeaCategoryResource extends Resource
                 TextColumn::make('slug'),
 
                 ColorColumn::make('color'),
+
+                TextColumn::make('ideas_count')
+                    ->label('Ideas')
+                    ->counts('ideas')
+                    ->numeric(),
             ])
             ->filters([
                 //
