@@ -80,7 +80,7 @@ trait EnumTrait
      *
      * @return string
      */
-    public static function fakerChoice(): string
+    public static function fake(): string
     {
         return Arr::random(self::values());
     }
