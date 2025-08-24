@@ -7,11 +7,11 @@ use App\Enums\IdeaStatus;
 use App\Enums\NavigationGroup;
 use App\Filament\Resources\IdeaResource\Pages;
 use App\Models\Idea;
+use App\Services\IdeaScoreService;
 use BackedEnum;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\MarkdownEditor;
@@ -19,13 +19,13 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use UnitEnum;
 
 class IdeaResource extends Resource
@@ -86,6 +86,12 @@ class IdeaResource extends Resource
                 TextEntry::make('updated_at')
                     ->label('Last Modified Date')
                     ->state(fn(?Idea $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+
+                Fieldset::make('Idea Score')
+                    ->relationship('score')
+                    ->columnSpanFull()
+                    ->visibleOn(['edit', 'view'])
+                    ->schema((new IdeaScoreService())->formComponent())
             ]);
     }
 

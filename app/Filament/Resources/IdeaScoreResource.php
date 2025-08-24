@@ -2,18 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\IdeaScoreCriterion;
 use App\Enums\NavigationGroup;
 use App\Filament\Resources\IdeaScoreResource\Pages;
 use App\Models\IdeaScore;
+use App\Services\IdeaScoreService;
 use BackedEnum;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
@@ -56,27 +54,7 @@ class IdeaScoreResource extends Resource
                 TextInput::make('score')
                     ->visibleOn('view'),
 
-                Repeater::make('criteria')
-                    ->schema([
-                        Select::make('criterion')
-                            ->options(IdeaScoreCriterion::labelArray())
-                            ->distinct()
-                            ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                            ->required(),
-                        TextInput::make('score')
-                            ->integer()
-                            ->minValue(0)
-                            ->maxValue(10)
-                            ->required(),
-                    ])
-                    ->columns(2)
-                    ->columnSpanFull()
-                    ->defaultItems(count(IdeaScoreCriterion::cases()))
-                    ->addable(false)
-                    ->deletable(false)
-                    ->reorderable(false)
-                    ->reorderableWithDragAndDrop(false)
-                    ->itemLabel(fn (array $state): ?string => IdeaScoreCriterion::tryFrom($state['criterion'])?->label() ?? null),
+                (new IdeaScoreService())->formComponent(false),
 
                 TextEntry::make('created_at')
                     ->label('Created Date')
