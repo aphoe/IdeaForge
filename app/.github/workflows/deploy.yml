@@ -42,6 +42,3 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/ideaforge.aphoe.com
-            php artisan migrate --step --force
-            php artisan storage:link
-            php artisan filament:upgrade
