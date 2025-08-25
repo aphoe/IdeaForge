@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->text('description');
             $table->text('problem');
             $table->text('notes')->nullable();
-            $table->string('status')->default(\App\Classes\Enums\IdeaStatus::DRAFT->value);
+            $table->string('status')->default(\App\Enums\IdeaStatus::DRAFT->value);
             $table->timestamps();
             $table->softDeletes();
         });
