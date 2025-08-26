@@ -15,4 +15,17 @@ enum ProgressStatus: string
     case COMPLETED = 'completed';
     case ABANDONED = 'abandoned';
     case CANCELLED = 'cancelled';
+
+    public function badge(): string
+    {
+        return match ($this) {
+            self::NOT_STARTED => 'gray',
+            self::IN_PROGRESS => 'primary',
+            self::PAUSED => 'warning',
+            self::SUSPENDED => 'warning',
+            self::COMPLETED => 'success',
+            self::ABANDONED => 'danger',
+            self::CANCELLED => 'danger',
+        };
+    }
 }
