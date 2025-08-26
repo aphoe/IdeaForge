@@ -21,6 +21,7 @@ class IdeaKnowledgeFactory extends Factory
             'slug' => $this->faker->slug(),
             'description' => $this->faker->text(),
             'status' => ProgressStatus::fake(),
+            'progress' => $this->faker->randomNumber(2),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

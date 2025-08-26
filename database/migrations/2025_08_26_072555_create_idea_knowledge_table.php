@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('slug');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('progress')->default(0);
             $table->string('status')->default(\App\Enums\ProgressStatus::NOT_STARTED->value);
             $table->timestamps();
         });

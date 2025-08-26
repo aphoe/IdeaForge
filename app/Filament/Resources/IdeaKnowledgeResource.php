@@ -49,12 +49,25 @@ class IdeaKnowledgeResource extends Resource
                     ->columnSpanFull()
                     ->required(),
 
+                TextInput::make('slug')
+                    ->visibleOn('view'),
+
+                TextInput::make('identifier')
+                    ->visibleOn('view'),
+
                 Select::make('idea_id')
                     ->relationship('idea', 'title')
+                    ->columnSpanFull()
                     ->required(),
 
                 Select::make('status')
                     ->options(ProgressStatus::labelArray())
+                    ->required(),
+
+                TextInput::make('progress')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
                     ->required(),
 
                 MarkdownEditor::make('description')
@@ -84,6 +97,11 @@ class IdeaKnowledgeResource extends Resource
                 TextColumn::make('idea.title')
                     ->searchable()
                     ->sortable(),
+
+                TextColumn::make('progress')
+                    ->searchable()
+                    ->sortable()
+                    ->suffix('%'),
 
                 TextColumn::make('status')
                     ->searchable()
