@@ -159,6 +159,12 @@ class IdeaResource extends Resource
                     ->counts('features')
                     ->numeric(),
 
+                TextColumn::make('knowledge_progress')
+                    ->label('Knowl. Prog.')
+                    ->searchable()
+                    ->sortable()
+                    ->suffix('%'),
+
                 TextColumn::make('status')
                     ->searchable()
                     ->sortable()
