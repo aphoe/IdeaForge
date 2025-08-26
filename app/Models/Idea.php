@@ -43,6 +43,11 @@ class Idea extends Model
         return $this->hasMany(IdeaFeature::class);
     }
 
+    public function knowledges(): HasMany
+    {
+        return $this->hasMany(IdeaKnowledge::class, 'idea_id');
+    }
+
     public function score(): HasOne
     {
         return $this->hasOne(IdeaScore::class);
