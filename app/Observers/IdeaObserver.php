@@ -14,6 +14,5 @@ class IdeaObserver
 
         $idea->identifier = $mgr->identifier($idea);
         $idea->slug = $mgr->slug($idea, $idea->title);
-        $idea->code = (new IdeaService())->genCode($idea->title);
     }
 }

@@ -9,6 +9,7 @@ use App\Filament\Resources\IdeaResource\Pages;
 use App\Models\Idea;
 use App\Models\IdeaScore;
 use App\Services\IdeaFeatureService;
+use App\Services\IdeaKnowledgeService;
 use App\Services\IdeaScoreService;
 use BackedEnum;
 use Filament\Actions\ActionGroup;
@@ -58,10 +59,15 @@ class IdeaResource extends Resource
                     ->columnSpanFull()
                     ->required(),
 
+                TextInput::make('code')
+                    ->visibleOn(['create', 'view'])
+                    ->maxLength(5)
+                    ->minLength(3)
+                    ->required(),
+
                 Select::make('idea_category_id')
                     ->label('Category')
                     ->relationship('category', 'name')
-                    ->columnSpanFull()
                     ->required(),
 
                 TextInput::make('identifier')
@@ -106,6 +112,11 @@ class IdeaResource extends Resource
                     ->relationship('features')
                     ->schema([
                         TextInput::make('title')
+                            ->columnSpanFull()
+                            ->required(),
+
+                        TextInput::make('code')
+                            ->visibleOn('view')
                             ->required(),
 
                         Select::make('status')
@@ -118,6 +129,16 @@ class IdeaResource extends Resource
                             ->maxLength(1500)
                             ->required(),
                     ])
+                    ->visibleOn(['edit', 'view'])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->itemLabel(fn (array $state): ?string => $state['title'])
+                    ->grid(2)
+                ,
+                Repeater::make('knowledges')
+                    ->label('Knowledge')
+                    ->relationship('knowledges')
+                    ->schema((new IdeaKnowledgeService())->formComponent(false))
                     ->visibleOn(['edit', 'view'])
                     ->columns(2)
                     ->columnSpanFull()
