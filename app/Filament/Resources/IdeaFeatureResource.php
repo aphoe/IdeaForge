@@ -52,6 +52,11 @@ class IdeaFeatureResource extends Resource
                     ->options(IdeaStatus::labelArray())
                     ->required(),
 
+                Select::make('idea_id')
+                    ->relationship('idea', 'title')
+                    ->columnSpanFull()
+                    ->required(),
+
                 MarkdownEditor::make('feature')
                     ->columnSpanFull()
                     ->minLength(30)
