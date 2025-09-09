@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Classes\FilamentManager;
 use App\Enums\NavigationGroup;
 use App\Filament\Resources\IdeaScoreResource\Pages;
 use App\Models\IdeaScore;
@@ -94,7 +95,8 @@ class IdeaScoreResource extends Resource
                 BulkActionGroup::make([
                     //DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated(FilamentManager::PAGINATION_OPTIONS);
     }
 
     public static function getPages(): array
