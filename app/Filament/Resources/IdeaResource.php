@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Classes\FilamentManager;
 use App\Classes\ValidationRule;
 use App\Enums\IdeaStatus;
 use App\Enums\NavigationGroup;
@@ -208,7 +209,8 @@ class IdeaResource extends Resource
                     //DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('title');
+            ->defaultSort('title')
+            ->paginated(FilamentManager::PAGINATION_OPTIONS);
     }
 
     public static function getPages(): array
