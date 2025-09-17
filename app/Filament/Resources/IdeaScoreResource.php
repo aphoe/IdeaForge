@@ -71,6 +71,11 @@ class IdeaScoreResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('index')
+                    ->label('#')
+                    ->sortable()
+                    ->rowIndex(),
+
                 TextColumn::make('idea.title')
                     ->searchable()
                     ->sortable(),

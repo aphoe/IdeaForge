@@ -87,7 +87,13 @@ class IdeaKnowledgeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([TextColumn::make('title')
+            ->columns([
+                TextColumn::make('index')
+                    ->label('#')
+                    ->sortable()
+                    ->rowIndex(),
+
+                TextColumn::make('title')
                 ->searchable()
                 ->sortable(),
 
