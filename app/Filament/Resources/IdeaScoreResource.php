@@ -21,6 +21,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use UnitEnum;
@@ -121,7 +122,17 @@ class IdeaScoreResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['idea.title'];
+        return ['criteria'];
+    }
+
+    public static function getGlobalSearchResultUrl(Model $record): string
+    {
+        return IdeaScoreResource::getUrl('view', ['record' => $record]);
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return $record->idea->title;
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array

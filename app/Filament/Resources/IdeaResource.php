@@ -29,6 +29,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use UnitEnum;
@@ -235,7 +236,16 @@ class IdeaResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['title', 'slug', 'category.name'];
+        return ['title', 'slug', 'code', 'domain_name', 'brand_name', 'description', 'problem', 'notes'];
+    }
+
+    public static function getGlobalSearchResultUrl(Model $record): string
+    {
+        return IdeaResource::getUrl('view', ['record' => $record]);
+    }
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return $record->title;
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
