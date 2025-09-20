@@ -22,6 +22,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 use UnitEnum;
 
 class IdeaCategoryResource extends Resource
@@ -124,6 +126,16 @@ class IdeaCategoryResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['name'];
+        return ['name', 'slug', 'description', 'color'];
+    }
+
+    public static function getGlobalSearchResultUrl(Model $record): string
+    {
+        return IdeaCategoryResource::getUrl('view', ['record' => $record]);
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return $record->name;
     }
 }
